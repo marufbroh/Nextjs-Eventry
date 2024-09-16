@@ -29,4 +29,22 @@ const findUserByCredentials = async (credentials) => {
   return null;
 };
 
-export { getAllEvents, getEventById, createUser, findUserByCredentials };
+const updateInterest = async (eventId, authId) => {
+  const event = await eventModel.findById(eventId);
+
+  if (event) {
+    const foundUsers = event.interested_ids.find(
+      (id) => id.toString() === authId
+    );
+
+    if (foundUsers) {
+      event.interested_ids.pull(new mongoose.ObjectId(authId));
+    } else {
+      event.interested_ids.push(new mongoose.ObjectId(authId));
+    }
+
+    event.save();
+  }
+};
+
+export { getAllEvents, getEventById, createUser, findUserByCredentials, updateInterest };
