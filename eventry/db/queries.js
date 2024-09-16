@@ -4,6 +4,7 @@ import {
   replaceMongoIdInArray,
   replaceMongoIdInObject,
 } from "@/utils/data-util";
+import mongoose from "mongoose";
 
 const getAllEvents = async () => {
   const allEvents = await eventModel.find().lean();
@@ -29,22 +30,47 @@ const findUserByCredentials = async (credentials) => {
   return null;
 };
 
-const updateInterest = async (eventId, authId) => {
+// const updateInterest = async (eventId, authId) => {
+//   const event = await eventModel.findById(eventId);
+
+//   if (event) {
+//     const foundUsers = event.interested_ids.find(
+//       (id) => id.toString() === authId
+//     );
+
+//     if (foundUsers) {
+//       event.interested_ids.pull(new mongoose.Types.ObjectId(authId));
+//     } else {
+//       event.interested_ids.push(new mongoose.Types.ObjectId(authId));
+//     }
+
+//     event.save();
+//   }
+// };
+
+async function updateInterest(eventId, authId) {
+
   const event = await eventModel.findById(eventId);
 
   if (event) {
-    const foundUsers = event.interested_ids.find(
-      (id) => id.toString() === authId
-    );
+      const foundUsers = event.interested_ids.find(id => id.toString() === authId);
 
-    if (foundUsers) {
-      event.interested_ids.pull(new mongoose.ObjectId(authId));
-    } else {
-      event.interested_ids.push(new mongoose.ObjectId(authId));
-    }
+      if(foundUsers) {
+        event.interested_ids.pull(authId);
+      } else {
+        event.interested_ids.push(authId);
+      }
 
-    event.save();
+    await  event.save();
   }
-};
 
-export { getAllEvents, getEventById, createUser, findUserByCredentials, updateInterest };
+
+}
+
+export {
+  getAllEvents,
+  getEventById,
+  createUser,
+  findUserByCredentials,
+  updateInterest,
+};

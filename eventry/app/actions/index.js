@@ -2,7 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 
-const { createUser, findUserByCredentials, updateInterest } = require("@/db/queries");
+const {
+  createUser,
+  findUserByCredentials,
+  updateInterest,
+} = require("@/db/queries");
 const { redirect } = require("next/navigation");
 
 const registerUser = async (formData) => {
@@ -26,13 +30,13 @@ const performLogin = async (formData) => {
   }
 };
 
-const addInterestedEvent = async (eventId, authId){
+const addInterestedEvent = async (eventId, authId) => {
   try {
-    await updateInterest(eventId, authId)
+    await updateInterest(eventId, authId);
   } catch (error) {
-    throw error
+    throw error;
   }
   revalidatePath("/");
-}
+};
 
 export { registerUser, performLogin, addInterestedEvent };
