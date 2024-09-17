@@ -14,7 +14,7 @@ const ActionButtons = ({
   const { auth } = useAuth();
   const router = useRouter();
   const isInterested = interestedUserIds?.find((id) => id === auth?.id);
-  const isGoing = goingUserIds?.find((id) => id === auth.id);
+  const isGoing = goingUserIds?.find((id) => id === auth?.id);
 
   const [interested, setInterested] = useState(isInterested);
   const [going, setGoing] = useState(isGoing);
