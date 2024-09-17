@@ -49,23 +49,29 @@ const findUserByCredentials = async (credentials) => {
 // };
 
 async function updateInterest(eventId, authId) {
-
   const event = await eventModel.findById(eventId);
 
   if (event) {
-      const foundUsers = event.interested_ids.find(id => id.toString() === authId);
+    const foundUsers = event.interested_ids.find(
+      (id) => id.toString() === authId
+    );
 
-      if(foundUsers) {
-        event.interested_ids.pull(authId);
-      } else {
-        event.interested_ids.push(authId);
-      }
+    if (foundUsers) {
+      event.interested_ids.pull(authId);
+    } else {
+      event.interested_ids.push(authId);
+    }
 
-    await  event.save();
+    await event.save();
   }
-
-
 }
+
+const updateGoing = async (eventId, authId) => {
+  const event = await eventModel.findById(eventId);
+
+  await event.going_ids.push(authId);
+  event.save();
+};
 
 export {
   getAllEvents,
@@ -73,4 +79,5 @@ export {
   createUser,
   findUserByCredentials,
   updateInterest,
+  updateGoing
 };

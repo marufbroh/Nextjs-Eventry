@@ -6,6 +6,7 @@ const {
   createUser,
   findUserByCredentials,
   updateInterest,
+  updateGoing,
 } = require("@/db/queries");
 const { redirect } = require("next/navigation");
 
@@ -39,4 +40,15 @@ const addInterestedEvent = async (eventId, authId) => {
   revalidatePath("/");
 };
 
-export { registerUser, performLogin, addInterestedEvent };
+const addGoingEvent = async (eventId, user) => {
+  try {
+    await updateGoing(eventId, user?.id);
+  } catch (error) {
+    throw error;
+  }
+
+  revalidatePath("/");
+  redirect("/")
+};
+
+export { registerUser, performLogin, addInterestedEvent, addGoingEvent };
