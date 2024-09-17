@@ -6,8 +6,15 @@ import {
 } from "@/utils/data-util";
 import mongoose from "mongoose";
 
-const getAllEvents = async () => {
-  const allEvents = await eventModel.find().lean();
+const getAllEvents = async (query) => {
+  let allEvents = [];
+  if (query) {
+    const regex = new RegExp(query, "i");
+    allEvents = await eventModel.find({ name: { $regex: regex } }).lean();
+  } else {
+    allEvents = await eventModel.find().lean();
+  }
+
   return replaceMongoIdInArray(allEvents);
 };
 
@@ -79,5 +86,5 @@ export {
   createUser,
   findUserByCredentials,
   updateInterest,
-  updateGoing
+  updateGoing,
 };
