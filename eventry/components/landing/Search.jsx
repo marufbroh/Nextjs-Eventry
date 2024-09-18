@@ -1,6 +1,6 @@
-'use client'
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import useDebounce from '@/app/hooks/useDebounce';
+"use client";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import useDebounce from "@/app/hooks/useDebounce";
 
 const Search = () => {
   const searchParams = useSearchParams();
@@ -10,9 +10,9 @@ const Search = () => {
   const doSearch = useDebounce((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set('query', term);
+      params.set("query", term);
     } else {
-      params.delete('query');
+      params.delete("query");
     }
 
     replace(`${pathname}?${params.toString()}`);
@@ -31,7 +31,7 @@ const Search = () => {
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
-        defaultValue={searchParams.get('query')?.toString()}
+        defaultValue={searchParams.get("query")?.toString()}
       />
     </div>
   );
